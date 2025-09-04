@@ -5,21 +5,79 @@
     </head>
     <body>
         <h1>HTML forms</h1>
-        <form>
-            <label for="Username">Enter username</label>
-            <input type="text" id="Username" name="username">
+        <form action=""">
+            <label for="Username"><b>Enter username</b></label>
+            <input type="text" id="Username" name="username" placeholder="Username">
             <br><br>
-            <label for="UG number">UG number</label>
-            <input type="email" id="email" name="email" >
+
+            <label for="UG number"><b>UG number</b></label>
+            <input type="email" id="email" name="email" placeholder="Email">
             <br><br>
-            <label for="password">password:</label>
-            <input type="password" id="password" name="password">
+
+            <label for="password"><b>Password:</b></label>
+            <input type="password" id="password" name="password" placeholder="Password">
+            
             <p>Select your age:</p>
             <input type="radio" name="age" value="0-25" id="option-1">
             <label for="option-1">0-25</label>
-            <br><br>
+           
             <input type="radio" name="age" value="26-50" id="option-1">
             <label for="option-2">26-50</label>
+
+            <input type="radio" name="age" value="51-75" id="option-1">
+            <label for="option-3">51-75</label>
+
+            <br><br>
+
+            <label for="quesion"> Security quesion:</label>
+            <select name="quesion" id="quesion">
+              <option value="q1">What colour are your Buggati?</option>
+              <option value="q2">What is your favourite sports</option>
+            </select>
+            <br><br><br>
+            <label for="">Security quesition answer</label>
+            <input type="text" name="answer" id="answer" placeholder="Security quesion answer....">
+            <br><br>
+            <label for="bio">Enter bio</label>
+            <br>
+            <textarea name="bio" id="bio" cols="30" rows="10" placeholder="About you...."></textarea>
+            <br><br>
+            <input type="submit" value="submit the form" id="">
         </form>
     </body>
-</html>                             
+</html>         
+
+
+<!--
+Page Summary
+- How to create a web form and what the 'action' attribute is for
+- Seen a lot of the most common input types
+- text, email, password, radio, select, textarea
+- How to use labels, the id attribute & the name attribute
+- How forms are submitted and validated
+
+
+IMPORTANT INPUT FILES
+<input type="button">
+<input type="checkbox">
+<input type="color">
+<input type="date">
+<input type="datetime-local">
+<input type="email">
+<input type="file">
+<input type="hidden">
+<input type="image">
+<input type="month">
+<input type="number">
+<input type="password">
+<input type="radio">
+<input type="range">
+<input type="reset">
+<input type="search">
+<input type="submit">
+<input type="tel">
+<input type="text">
+<input type="time">
+<input type="url">
+<input type="week">
+-->
