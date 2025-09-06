@@ -1,0 +1,21 @@
+
+h1{
+    
+    color: black;
+    background-color:ghostwhite;
+    font-size: 60px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+h2{
+    text-align: left;
+    color: black;
+    background-color: teal;
+
+}
+p{
+    line-height: 12px;
+    text-align: left;
+    color: white;
+    background-color: cadetblue;
+    letter-spacing: 1px;
+}
