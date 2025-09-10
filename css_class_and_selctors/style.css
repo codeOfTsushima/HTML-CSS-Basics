@@ -11,3 +11,10 @@
     background-color: lightgreen;
     padding: 20px;
 }
+a[href]{/*  To call every anchor tag in the text*/
+   background-color: beige; 
+   color: gold; 
+   text-decoration: none; 
+   font-weight: bold;
+   text-transform: uppercase;
+}
