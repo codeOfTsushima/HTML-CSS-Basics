@@ -1,0 +1,16 @@
+
+/* Cascade */
+div{
+    color: brown;
+    border: 1px solid grey;
+    font-weight: bold;
+}
+div p{
+    border: inherit;
+    margin: inherit;
+    color: crimson;
+}
+/* Inheritence takes place from bottom to top so the bottom cascade will take place in the webapage */
+p{
+    color: orange;
+}
