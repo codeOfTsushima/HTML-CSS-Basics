@@ -16,11 +16,12 @@ This repository contains basic HTML projects and practice files to help beginner
 - timtable.html : Alternate timetable layout  
 
 ## Folders
-- css_class_and_selctors/ : css_class_and_selectors
+- css_class_and_selctors/ : css class and selectors
 - homeWorks/ : Exercises and assignments  
 - img/ : Image assets  
 - practice/ : Practice files and experiments  
 - resume/ : Resume-related HTML files  
+- cascade: about cascade in css
 
 ## How to Run
 1. Clone the repository to your local machine.  
