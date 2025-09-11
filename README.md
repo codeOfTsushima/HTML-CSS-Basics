@@ -16,12 +16,13 @@ This repository contains basic HTML projects and practice files to help beginner
 - timtable.html : Alternate timetable layout  
 
 ## Folders
+- html5_semantic_tags/: Building Mariocart website
 - css_class_and_selctors/ : css class and selectors
 - homeWorks/ : Exercises and assignments  
 - img/ : Image assets  
 - practice/ : Practice files and experiments  
 - resume/ : Resume-related HTML files  
-- cascade: about cascade in css
+- cascade/: about cascade in css
 
 ## How to Run
 1. Clone the repository to your local machine.  
