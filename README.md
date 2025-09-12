@@ -20,7 +20,7 @@ This repository contains basic HTML projects and practice files to help beginner
 - css_class_and_selctors/ : css class and selectors
 - homeWorks/ : Exercises and assignments  
 - img/ : Image assets  
-- practice/ : Practice files and experiments  
+- practice/ : Practicing on various topics in html and css
 - resume/ : Resume-related HTML files  
 - cascade/: about cascade in css
 
