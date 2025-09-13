@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Homework Form</title>
+</head>
+<body>
+    <h1>Advanced User Profile Form</h1>
+    <form action="/submit-form" method="post">
+        <fieldset>
+            <legend>User Information</legend>
+            <p>
+                <label for="full_name">Full Name:</label>
+                <input type="text" id="full_name" name="full_name" placeholder="Enter name" required>
+            </p>
+            <p>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="user@example.com" required>
+            </p>
+            <p>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required minlength="8">
+            </p>
+            <p>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob">
+            </p>
+            <p>
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890">
+                <small>Format: 123-456-7890</small>
+            </p>
+        </fieldset>
+        
+        <br>
+        
+        <fieldset>
+            <legend>Contact Preferences</legend>
+            <p>
+                <label for="preferred_method">Preferred contact method:</label>
+                <input type="radio" id="email_contact" name="contact_method" value="email">
+                <label for="email_contact">Email</label>
+                <input type="radio" id="phone_contact" name="contact_method" value="phone">
+                <label for="phone_contact">Phone</label>
+            </p>
+            <p>
+                <label for="subscribe">Subscribe to newsletter:</label>
+                <input type="checkbox" id="subscribe" name="subscribe" checked>
+            </p>
+        </fieldset>
+
+        <br>
+        
+        <fieldset>
+            <legend>Additional Details</legend>
+            <p>
+                <label for="bio">Short Bio:</label><br>
+                <textarea id="bio" name="bio" rows="4" cols="50" placeholder="Tell us a little about yourself..."></textarea>
+            </p>
+            <p>
+                <label for="fav_color">Favorite Color:</label>
+                <input type="color" id="fav_color" name="fav_color">
+            </p>
+            <p>
+                <label for="file_upload">Upload Profile Picture:</label>
+                <input type="file" id="file_upload" name="profile_pic" accept="image/*">
+            </p>
+            <p>
+                <label for="satisfaction">Satisfaction Level:</label>
+                <input type="range" id="satisfaction" name="satisfaction" min="0" max="100" value="50">
+            </p>
+        </fieldset>
+
+        <br>
+
+        <fieldset>
+            <legend>Action</legend>
+            <input type="submit" value="Create Account">
+            <button type="reset">Reset Form</button>
+        </fieldset>
+    </form>
+</body>
+</html>
