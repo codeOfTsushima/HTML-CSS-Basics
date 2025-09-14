@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Classroom System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: url('https://i.pinimg.com/1200x/b7/87/0e/b7870ee068085d61cb621868b908d596.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(1px);
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 40px;
+            border-radius: 1px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-logo {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .login-box h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .login-box p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4285f4;
+            background-color: #fff;
+        }
+
+        .form-group .icon {
+            position: absolute;
+            left: 15px;
+            top: 40px;
+            color: #666;
+        }
+
+        .form-group .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: #4285f4;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            color: #3367d6;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+        }
+
+
+
+        .user-type-toggle {
+            display: flex;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .user-type-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .user-type-btn.active {
+            background: #4285f4;
+            color: white;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+
+        }
+
+        /* Dashboard Styles */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 1px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+
+        .dashboard-header h1 {
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 1px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #ff3742;
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 1px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 1px;
+        }
+
+        .chart-box h3 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .timetable-link {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 1px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .timetable-link:hover {
+            transform: translateY(-3px);
+        }
+        
+        .today-date {
+            font-size: 16px;
+            font-weight: 500;
+            color: #4a5568;
+            background-color: #f8f9fa;
+            padding: 6px 12px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .student-attendance-info {
+            background: linear-gradient(135deg, #4285f4, #0d47a1);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .today-timetable {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .class-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, #f8f9fa, #ffffff);
+            border-left: 4px solid #4285f4;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .class-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .class-card.active {
+            border-left-color: #34a853;
+            background: linear-gradient(to right, rgba(52, 168, 83, 0.05), rgba(52, 168, 83, 0.01));
+        }
+        
+        .class-card.past {
+            border-left-color: #9aa0a6;
+            opacity: 0.7;
+        }
+        
+        .class-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .class-subject {
+            font-weight: 600;
+            font-size: 16px;
+            color: #2d3748;
+        }
+        
+        .class-details {
+            font-size: 14px;
+            color: #4a5568;
+            margin-top: 4px;
+        }
+        
+        .class-time {
+            font-weight: 500;
+            color: #4285f4;
+            background-color: rgba(66, 133, 244, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .attendance-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .attendance-indicator.present {
+            color: #34a853;
+        }
+        
+        .attendance-indicator.absent {
+            color: #ea4335;
+        }
+        
+        .no-classes {
+            text-align: center;
+            padding: 30px;
+            color: #4a5568;
+            font-style: italic;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        /* Timetable Styles */
+        .timetable-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 1px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 1px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .timetable-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .timetable th,
+        .timetable td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .timetable th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .timetable tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        .timetable tr:hover {
+            background: #e6eaff;
+        }
+
+        .add-class-form {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 1px;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-row select,
+        .form-row input {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 1px;
+            font-size: 14px;
+        }
+
+        .add-btn {
+            padding: 12px 25px;
+            background: #10ac84;
+            color: white;
+            border: none;
+            border-radius: 1px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #0e9372;
+            transform: translateY(-2px);
+        }
+
+        .delete-btn {
+            padding: 5px 10px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 1px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-btn:hover {
+            background: #ff3742;
+        }
+
+        @media (max-width: 768px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header,
+            .timetable-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .timetable-container {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-box">
+
+                <h1>Sign in with email</h1>
+                <p>Make a new doc to bring your words, data, and teams together. For free.</p>
+                
+                <div class="user-type-toggle">
+                    <div class="user-type-btn active" id="teacherToggle" onclick="toggleUserType('teacher')">Teacher</div>
+                    <div class="user-type-btn" id="studentToggle" onclick="toggleUserType('student')">Student</div>
+                </div>
+                
+                <form id="loginForm">
+                    <div id="teacherLoginFields">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter your password">
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">👁️</span>
+                        </div>
+                    </div>
+                    
+                    <div id="studentLoginFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="ugNumber">Student ID</label>
+                            <input type="text" id="ugNumber" name="ugNumber" placeholder="Enter your Student ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentPassword">Password</label>
+                            <input type="password" id="studentPassword" name="studentPassword" placeholder="Enter your password">
+                            <span class="toggle-password" onclick="toggleStudentPasswordVisibility()">👁️</span>
+                        </div>
+                    </div>
+                    
+                    <div class="forgot-password">
+                        <a href="#">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">Get Started</button>
+                </form>
+                
+
+                
+                <p style="margin-top: 15px; color: #666; font-size: 14px;">
+                    Demo: email: admin@example.com, password: admin<br>
+                    Student: student, password: password
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Student Dashboard Page -->
+    <div id="studentDashboardPage" class="page">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>📚 Student Dashboard</h1>
+                <div class="user-info">
+                    <span id="studentWelcomeText">Welcome, Student!</span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="studentTotalClasses">24</h3>
+                    <p>Total Classes This Week</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="studentAttendance">85%</h3>
+                    <p>Your Attendance</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="studentAssignments">5</h3>
+                    <p>Pending Assignments</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="studentGrade">A-</h3>
+                    <p>Current Grade</p>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3>📊 Your Attendance Trend</h3>
+                    <canvas id="studentAttendanceChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>📝 Subject Performance</h3>
+                    <canvas id="studentPerformanceChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Today's Classes Section -->
+            <div class="chart-box" style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>📆 Today's Classes</h3>
+                    <span class="today-date" id="todayDate">Monday, Jan 1, 2023</span>
+                </div>
+                <div class="today-timetable" id="todayTimetable">
+                    <!-- Classes will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="#" class="timetable-link" onclick="showStudentTimetable()">
+                    📅 View Full Weekly Timetable
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="page">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>📊 Classroom Dashboard</h1>
+                <div class="user-info">
+                    <span id="welcomeText">Welcome, User!</span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalClasses">24</h3>
+                    <p>Total Classes This Week</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="attendanceRate">89%</h3>
+                    <p>Average Attendance</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="activeStudents">156</h3>
+                    <p>Active Students</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="completedAssignments">23</h3>
+                    <p>Assignments Completed</p>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3>📈 Weekly Attendance Trend</h3>
+                    <canvas id="attendanceChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>📚 Subject Distribution</h3>
+                    <canvas id="subjectChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="#" class="timetable-link" onclick="showTimetable()">
+                    📅 View Timetable
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timetable Page -->
+    <div id="timetablePage" class="page">
+        <div class="container">
+            <div class="timetable-header">
+                <h1>📅 Class Timetable</h1>
+                <button class="back-btn" onclick="showDashboard()">← Back to Dashboard</button>
+            </div>
+
+            <div class="add-class-form">
+                <h3 style="margin-bottom: 20px;">Add New Class</h3>
+                <form id="addClassForm">
+                    <div class="form-row">
+                        <select id="daySelect" required>
+                            <option value="">Select Day</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                        </select>
+                        <input type="time" id="timeInput" required>
+                        <input type="text" id="subjectInput" placeholder="Subject" required>
+                        <input type="text" id="teacherInput" placeholder="Teacher" required>
+                        <input type="text" id="roomInput" placeholder="Room" required>
+                    </div>
+                    <button type="submit" class="add-btn">Add Class</button>
+                </form>
+            </div>
+
+            <div class="timetable-container">
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetableBody">
+                        <!-- Timetable will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentUser = null;
+        let timetableData = {};
+        let attendanceChart = null;
+        let subjectChart = null;
+        let currentUserType = 'teacher'; // Default user type
+        let studentAttendanceChart = null;
+        let studentPerformanceChart = null;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTimetableData();
+            setupEventListeners();
+            updateDashboardStats();
+            initializeCharts();
+            initializeStudentCharts();
+            updateTodayDate();
+            displayTodayClasses();
+        });
+        
+        // Update today's date display
+        function updateTodayDate() {
+            const todayElement = document.getElementById('todayDate');
+            if (todayElement) {
+                const today = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+                todayElement.textContent = today.toLocaleDateString('en-US', options);
+            }
+        }
+        
+        // Display today's classes in the student dashboard
+        function displayTodayClasses() {
+            const todayTimetable = document.getElementById('todayTimetable');
+            if (!todayTimetable) return;
+            
+            // Clear previous content
+            todayTimetable.innerHTML = '';
+            
+            // Get today's day name (e.g., Monday, Tuesday, etc.)
+            const today = new Date();
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const todayName = dayNames[today.getDay()];
+            
+            // Filter classes for today
+            const todayClasses = [];
+            for (const key in timetableData) {
+                const classData = timetableData[key];
+                if (classData.day === todayName) {
+                    todayClasses.push(classData);
+                }
+            }
+            
+            if (todayClasses.length === 0) {
+                todayTimetable.innerHTML = `
+                    <div class="no-classes">
+                        <p>No classes scheduled for today.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort classes by time
+            todayClasses.sort((a, b) => {
+                const timeA = a.time.split(' - ')[0];
+                const timeB = b.time.split(' - ')[0];
+                return timeA.localeCompare(timeB);
+            });
+            
+            // Get current time to determine class status (past, active, upcoming)
+            const currentHour = today.getHours();
+            const currentMinute = today.getMinutes();
+            
+            // Create class cards for each class
+            todayClasses.forEach(classItem => {
+                const classCard = document.createElement('div');
+                classCard.className = 'class-card';
+                
+                // Determine if class is past, active, or upcoming
+                const startTime = classItem.time.split(' - ')[0];
+                const endTime = classItem.time.split(' - ')[1];
+                
+                const startHour = parseInt(startTime.split(':')[0]);
+                const startMinute = parseInt(startTime.split(':')[1]);
+                
+                const endHour = parseInt(endTime.split(':')[0]);
+                const endMinute = parseInt(endTime.split(':')[1]);
+                
+                let classStatus = '';
+                let attendanceStatus = '';
+                
+                // Check if class is past, active, or upcoming
+                if (currentHour > endHour || (currentHour === endHour && currentMinute >= endMinute)) {
+                    classStatus = 'past';
+                    // Randomly determine attendance for demo purposes
+                    attendanceStatus = Math.random() > 0.2 ? 'present' : 'absent';
+                } else if (currentHour > startHour || (currentHour === startHour && currentMinute >= startMinute)) {
+                    classStatus = 'active';
+                    attendanceStatus = 'present'; // Assume present for active class
+                }
+                
+                // Add class status to card
+                if (classStatus) {
+                    classCard.classList.add(classStatus);
+                }
+                
+                // Create card content
+                classCard.innerHTML = `
+                    <div class="class-info">
+                        <div class="class-subject">${classItem.subject}</div>
+                        <div class="class-details">${classItem.room} • ${classItem.teacher}</div>
+                    </div>
+                    <div class="class-time">${classItem.time}</div>
+                `;
+                
+                // Add attendance indicator for past classes
+                if (classStatus === 'past') {
+                    const attendanceIndicator = document.createElement('div');
+                    attendanceIndicator.className = `attendance-indicator ${attendanceStatus}`;
+                    attendanceIndicator.innerHTML = attendanceStatus === 'present' ? 
+                        '<span>✓ Present</span>' : 
+                        '<span>✗ Absent</span>';
+                    
+                    classCard.appendChild(attendanceIndicator);
+                }
+                
+                todayTimetable.appendChild(classCard);
+            });
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('addClassForm').addEventListener('submit', handleAddClass);
+        }
+
+        // Toggle between teacher and student login forms
+        function toggleUserType(type) {
+            currentUserType = type;
+            
+            // Update toggle buttons
+            document.getElementById('teacherToggle').classList.toggle('active', type === 'teacher');
+            document.getElementById('studentToggle').classList.toggle('active', type === 'student');
+            
+            // Show/hide appropriate login fields
+            document.getElementById('teacherLoginFields').style.display = type === 'teacher' ? 'block' : 'none';
+            document.getElementById('studentLoginFields').style.display = type === 'student' ? 'block' : 'none';
+        }
+        
+        // Toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('#teacherLoginFields .toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🔒';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+        
+        // Toggle student password visibility
+        function toggleStudentPasswordVisibility() {
+            const passwordInput = document.getElementById('studentPassword');
+            const toggleIcon = document.querySelector('#studentLoginFields .toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🔒';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+        
+
+
+        // Authentication Functions
+        function handleLogin(e) {
+    e.preventDefault();
+    
+    if (currentUserType === 'teacher') {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Correct teacher login logic
+        if (email === 'admin@example.com' && password === 'admin') {
+            currentUser = email;
+            document.getElementById('welcomeText').textContent = `Welcome, Admin!`;
+            showDashboard();
+        } else {
+            // Alert for incorrect teacher credentials
+            alert('Invalid teacher credentials. Please try again.');
+        }
+    } else {
+        const ugNumber = document.getElementById('ugNumber').value;
+        const password = document.getElementById('studentPassword').value;
+        
+        // Correct student login logic
+        if (ugNumber === 'student' && password === 'password') {
+            currentUser = ugNumber;
+            document.getElementById('studentWelcomeText').textContent = `Welcome, Student!`;
+            showStudentDashboard();
+        } else {
+            // Alert for incorrect student credentials
+            alert('Invalid student credentials. Please try again.');
+        }
+    }
+}
+
+        function logout() {
+            currentUser = null;
+            showLogin();
+            // Clear form fields based on current user type
+            if (currentUserType === 'teacher') {
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+            } else {
+                document.getElementById('ugNumber').value = '';
+                document.getElementById('studentPassword').value = '';
+            }
+        }
+
+        // Navigation Functions
+        function showLogin() {
+            hideAllPages();
+            document.getElementById('loginPage').classList.add('active');
+        }
+
+        function showDashboard() {
+            hideAllPages();
+            document.getElementById('dashboardPage').classList.add('active');
+            updateDashboardStats();
+            if (attendanceChart && subjectChart) {
+                attendanceChart.update();
+                subjectChart.update();
+            }
+        }
+
+        function showStudentDashboard() {
+            hideAllPages();
+            document.getElementById('studentDashboardPage').classList.add('active');
+            // Refresh student charts
+            if (studentAttendanceChart && studentPerformanceChart) {
+                studentAttendanceChart.update();
+                studentPerformanceChart.update();
+            }
+        }
+
+        function showTimetable() {
+            hideAllPages();
+            document.getElementById('timetablePage').classList.add('active');
+            renderTimetable();
+        }
+
+        function showStudentTimetable() {
+            hideAllPages();
+            document.getElementById('timetablePage').classList.add('active');
+            renderTimetable();
+            // In a real application, you might want to show different data or controls for students
+            // Hide the add class form for students
+            document.querySelector('.add-class-form').style.display = 'none';
+        }
+
+        function hideAllPages() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+        }
+
+        // Dashboard Functions
+        function updateDashboardStats() {
+            // Calculate stats from timetable data
+            const totalClasses = Object.keys(timetableData).length;
+            document.getElementById('totalClasses').textContent = totalClasses;
+            
+            // Simulate dynamic data
+            document.getElementById('attendanceRate').textContent = Math.floor(Math.random() * 20 + 80) + '%';
+            document.getElementById('activeStudents').textContent = Math.floor(Math.random() * 50 + 150);
+            document.getElementById('completedAssignments').textContent = Math.floor(Math.random() * 10 + 20);
+        }
+
+        function initializeCharts() {
+            // Attendance Chart
+            const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+            
+            // Create gradient for attendance chart
+            const attendanceGradient = attendanceCtx.createLinearGradient(0, 0, 0, 400);
+            attendanceGradient.addColorStop(0, 'rgba(66, 133, 244, 0.6)');
+            attendanceGradient.addColorStop(1, 'rgba(66, 133, 244, 0)');
+            
+            attendanceChart = new Chart(attendanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                    datasets: [{
+                        label: 'Attendance %',
+                        data: [85, 92, 78, 96, 88],
+                        borderColor: '#4285f4',
+                        backgroundColor: attendanceGradient,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: '#4285f4',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: '#4285f4',
+                        pointHoverBorderColor: 'white'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#2d3748',
+                            bodyColor: '#4a5568',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    return tooltipItems[0].label;
+                                },
+                                label: function(context) {
+                                    return `Attendance: ${context.parsed.y}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(226, 232, 240, 0.5)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#4a5568',
+                                font: {
+                                    weight: '500'
+                                },
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#4a5568',
+                                font: {
+                                    weight: '500'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Subject Chart
+            const subjectCtx = document.getElementById('subjectChart').getContext('2d');
+            subjectChart = new Chart(subjectCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English'],
+                    datasets: [{
+                        data: [25, 20, 15, 20, 20],
+                        backgroundColor: [
+                            '#4285f4', // Google Blue
+                            '#34a853', // Google Green
+                            '#fbbc05', // Google Yellow
+                            '#ea4335', // Google Red
+                            '#5f6368'  // Google Grey
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 15,
+                                padding: 15,
+                                font: {
+                                    size: 12,
+                                    weight: '500'
+                                },
+                                color: '#4a5568'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#2d3748',
+                            bodyColor: '#4a5568',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize student charts
+        function initializeStudentCharts() {
+            // Student Attendance Chart
+            const attendanceCtx = document.getElementById('studentAttendanceChart').getContext('2d');
+            
+            // Create gradient for student attendance chart
+            const studentAttendanceGradient = attendanceCtx.createLinearGradient(0, 0, 0, 400);
+            studentAttendanceGradient.addColorStop(0, 'rgba(52, 168, 83, 0.6)');
+            studentAttendanceGradient.addColorStop(1, 'rgba(52, 168, 83, 0)');
+            
+            studentAttendanceChart = new Chart(attendanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                    datasets: [{
+                        label: 'Attendance %',
+                        data: [90, 85, 88, 82, 90, 85],
+                        backgroundColor: studentAttendanceGradient,
+                        borderColor: '#34a853',
+                        borderWidth: 3,
+                        fill: true,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: '#34a853',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: '#34a853',
+                        pointHoverBorderColor: 'white',
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#2d3748',
+                            bodyColor: '#4a5568',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    return tooltipItems[0].label;
+                                },
+                                label: function(context) {
+                                    return `Your Attendance: ${context.parsed.y}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 70,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(226, 232, 240, 0.5)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#4a5568',
+                                font: {
+                                    weight: '500'
+                                },
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#4a5568',
+                                font: {
+                                    weight: '500'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Student Performance Chart
+            const performanceCtx = document.getElementById('studentPerformanceChart').getContext('2d');
+            studentPerformanceChart = new Chart(performanceCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Mathematics', 'Science', 'English', 'History', 'Computer Science', 'Art'],
+                    datasets: [{
+                        label: 'Current Grade',
+                        data: [85, 90, 78, 82, 95, 88],
+                        backgroundColor: 'rgba(66, 133, 244, 0.3)',
+                        borderColor: '#4285f4',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: '#4285f4',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: '#4285f4',
+                        pointHoverBorderColor: 'white'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#2d3748',
+                            bodyColor: '#4a5568',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    return tooltipItems[0].label;
+                                },
+                                label: function(context) {
+                                    return `Grade: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                display: false,
+                                stepSize: 20
+                            },
+                            grid: {
+                                color: 'rgba(226, 232, 240, 0.5)'
+                            },
+                            pointLabels: {
+                                color: '#4a5568',
+                                font: {
+                                    size: 11,
+                                    weight: '500'
+                                }
+                            },
+                            angleLines: {
+                                color: 'rgba(226, 232, 240, 0.8)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Timetable Functions
+        function loadTimetableData() {
+            // Sample data - in a real app, this would come from a database
+            timetableData = {
+                'Monday-09:00': { subject: 'Mathematics', teacher: 'Dr. Smith', room: 'Room 101' },
+                'Monday-10:00': { subject: 'Physics', teacher: 'Prof. Johnson', room: 'Lab 1' },
+                'Tuesday-09:00': { subject: 'Chemistry', teacher: 'Dr. Brown', room: 'Lab 2' },
+                'Tuesday-11:00': { subject: 'Biology', teacher: 'Ms. Davis', room: 'Room 203' },
+                'Wednesday-10:00': { subject: 'English', teacher: 'Mr. Wilson', room: 'Room 105' },
+                'Thursday-09:00': { subject: 'Mathematics', teacher: 'Dr. Smith', room: 'Room 101' },
+                'Friday-11:00': { subject: 'Physics', teacher: 'Prof. Johnson', room: 'Lab 1' }
+            };
+        }
+
+        function handleAddClass(e) {
+            e.preventDefault();
+            const day = document.getElementById('daySelect').value;
+            const time = document.getElementById('timeInput').value;
+            const subject = document.getElementById('subjectInput').value;
+            const teacher = document.getElementById('teacherInput').value;
+            const room = document.getElementById('roomInput').value;
+
+            const key = `${day}-${time}`;
+            timetableData[key] = { subject, teacher, room };
+
+            // Clear form
+            document.getElementById('addClassForm').reset();
+            
+            // Re-render timetable
+            renderTimetable();
+            
+            alert('Class added successfully!');
+        }
+
+        function deleteClass(key) {
+            if (confirm('Are you sure you want to delete this class?')) {
+                delete timetableData[key];
+                renderTimetable();
+            }
+        }
+
+        function renderTimetable() {
+            const tbody = document.getElementById('timetableBody');
+            const timeSlots = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+            tbody.innerHTML = '';
+
+            timeSlots.forEach(time => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td><strong>${time}</strong></td>`;
+
+                days.forEach(day => {
+                    const key = `${day}-${time}`;
+                    const classData = timetableData[key];
+                    
+                    if (classData) {
+                        row.innerHTML += `
+                            <td>
+                                <div style="background: #e6eaff; padding: 8px; border-radius: 1px; position: relative;">
+                                    <strong>${classData.subject}</strong><br>
+                                    <small>${classData.teacher}</small><br>
+                                    <small>${classData.room}</small>
+                                    <button class="delete-btn" onclick="deleteClass('${key}')" 
+                                            style="position: absolute; top: 2px; right: 2px;">×</button>
+                                </div>
+                            </td>
+                        `;
+                    } else {
+                        row.innerHTML += '<td>-</td>';
+                    }
+                });
+
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
