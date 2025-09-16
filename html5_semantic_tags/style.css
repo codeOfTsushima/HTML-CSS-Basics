@@ -1,116 +1,175 @@
-body, ul, li, h1, h2, a{
+/*Global Styling /
+
+/* Resets default browser margins, paddings, and sets the font for common elements */
+body, ul, li, h1, h2, a {
     margin: 0;
     padding: 0;
     font-family: Arial;
 }
-header{
-background-color: #f63232;
-padding: 20px;
-text-align: center ;
-position: fixed ;
-width: 100%;
-z-index: 1 ;
-top: 0;
-left: 0;
+
+/*  Header */
+
+/* Styles the header, setting its background, padding, and making it fixed at the top */
+header {
+    background-color: #f63232;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    z-index: 1; /* Ensures the header stays on top of other content */
+    top: 0;
+    left: 0;
 }
-header h1{
+
+/* Styles the main heading inside the header, giving it a border and rounded corners */
+header h1 {
     color: white;
     border: 8px solid white;
     padding: 6px 12px;
-    display: inline-block;
+    display: inline-block; /* Allows the element to be centered and have padding */
     border-radius: 40px;
     font-size: 2em;
 }
-.banner{
+
+/*  Banner Section  */
+
+/* Container for the banner image and welcome text */
+.banner {
     position: relative;
 }
-.banner-img{
+
+/* Ensures the banner image is responsive and doesn't exceed its container's width */
+.banner-img {
     max-width: 100%;
 }
-.banner .Welcome{
+
+/* Styles the "Welcome" message, positioning it absolutely within the banner */
+.banner .Welcome {
     background-color: #feb614;
     padding: 30px;
     font-size: 30px;
     color: white;
-    position: absolute;
+    position: absolute; /* Positions the text relative to the parent .banner */
     left: 0;
     top: 30%;
 }
-.banner h2{
+
+/* Styles the heading inside the banner */
+.banner h2 {
     font-size: 1.3em;
 }
-nav{
+
+/* Navigation Bar  */
+
+/* Styles the navigation bar, making it "sticky" so it follows the user when they scroll */
+nav {
     background-color: #f4f4f4;
     padding: 20px;
-    position: sticky;
-    top: 104px;
+    position: sticky; /* Makes the nav bar stick to the top after scrolling past it */
+    top: 104px; /* Positions the sticky nav just below the fixed header */
 }
-nav ul{
-    white-space: nowrap;
+
+/* Styles the list of navigation links */
+nav ul {
+    white-space: nowrap; /* Prevents list items from wrapping to the next line */
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto; /* Centers the navigation list on the page */
     padding: 0;
-    list-style: none;
+    list-style: none; /* Removes bullet points */
 }
-nav li{
+
+/* Styles each individual navigation item */
+nav li {
     width: 25%;
-    display: inline-block;
+    display: inline-block; /* Arranges the list items horizontally */
     font-size: 25px;
 }
-nav li a{
-    text-decoration: none;
+
+/* Styles the navigation links */
+nav li a {
+    text-decoration: none; /* Removes the underline from links */
     color: #4b4b4b;
 }
-nav li a.john{
+
+/* Styles the link with the class 'john', changing its color to red */
+nav li a.john {
     color: #f63232;
 }
-main{
+
+/* Main Content */
+
+/* Styles the main content area, setting its width and centering it */
+main {
     max-width: 100%;
     width: 1200px;
     margin: 80px auto;
     padding: 0px 40px;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Includes padding in the element's total width */
     background-color: #f4f4f4;
 }
-article h2{
+
+/* Styles the headings within an article */
+article h2 {
     color: #f63232;
     font-size: 48px;
 }
-article p{
+
+/* Styles paragraphs within an article */
+article p {
     font-size: 20px;
-    line-height: 2em;
+    line-height: 2em; /* Increases spacing between lines for readability */
     color: #4b4b4b;
 }
-.images{
+
+/* Image Gallery  */
+
+/* Container for the image gallery, centering the images and preventing wrapping */
+.images {
     text-align: center;
     margin: 80px 0;
     white-space: nowrap;
 }
-.images li{
+
+/* Styles each image container within the gallery, arranging them horizontally */
+.images li {
     display: inline-block;
     width: 40%;
-    margin: 20px 5%;
+    margin: 20px 5%; /* Adds spacing between the images */
 }
-.images li img{
+
+/* Ensures images within the gallery are responsive */
+.images li img {
     max-width: 100%;
 }
-.join{
+
+/*  Join Section  */
+
+/* Styles the "Join Us" section with a background color and text alignment */
+.join {
     background: #f4f4f4;
     text-align: center;
     padding: 60px 20px;
     color: #4b4b4b;
 }
-.join h2{
+
+/* Styles the heading within the "Join Us" section */
+.join h2 {
     font-size: 36px;
 }
-form input{
+
+/* Styles the input fields in the form, giving them rounded corners and a border */
+form input {
     margin: 20px 0;
     padding: 10px 20px;
     font-size: 24px;
     border-radius: 28px;
     border: 4px solid white;
 }
-footer{
+
+/* Footer  */
+
+/* Styles the footer with a background color, text color, and alignment */
+footer {
     background-color: #f63232;
     color: white;
     text-align: center;
