@@ -129,6 +129,9 @@ article p {
     margin: 80px 0;
     white-space: nowrap;
 }
+.banner{
+    max-width:100%; height:auto; display:block; margin:0 auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
 
 /* Styles each image container within the gallery, arranging them horizontally */
 .images li {
@@ -174,5 +177,44 @@ footer {
     color: white;
     text-align: center;
     padding: 10px;
+
+}
+/* pseudo classes */
+nav li a:hover {
+    text-decoration: underline; /* Underlines the link on hover for better interactivity */
     
+}
+.images li:hover {
+    position: relative; /* Allows the image to be positioned relative to its normal position */
+    top: -10px; /* Moves the image up by 10 pixels on hover */
+}
+form input:focus{ /* Styles the input field when it is focused (clicked or tabbed into) */
+    border:4px dashed #4b4b4b; /* Changes border to dashed when the input field is focused */
+    outline: none; /* Removes the default focus outline */
+}
+form input:valid{ /* Styles the input field when it contains valid data */
+    border: 4px solid #71d300; /* Green border for valid input */
+
+}
+nav li:first-child{
+    border: 3px solid #f63232; /* Adds a border to the first navigation item */
+}
+
+/* About pseudo class */
+/*www.w3schools.com%2Fcss%2Fcss_pseudo_elements.asp%26v%3DFMu2cKWD90g) */
+
+article p::first-letter { /* Styles the first letter of each paragraph in an article */
+    font-size: 1.2em; /* Increases the size of the first letter */
+    font-weight: bold; /* Makes the first letter bold */
+}
+section.join p::first-letter{
+    font-size: 1.5em;
+  
+}
+ p::selection{
+    background-color: red;
+    color: white;
+}
+p::after{
+    content: '...' ; /* Adds ellipsis after each paragraph */   
 }
